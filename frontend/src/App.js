@@ -10,7 +10,6 @@ import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import Objectives from './pages/Objectives';
 
-// Global API URL for your Contact Form
 export const API_URL = "https://ethiopian-military-academy.onrender.com/api";
 
 const App = () => {
@@ -31,32 +30,33 @@ const App = () => {
 
   const styles = {
     pageWrapper: {
-      background: 'linear-gradient(135deg, #90EE90 50%, #FF0000 50%)',
+      background: '#f8f9fa', // Barkume Light Gray/White
       minHeight: '100vh',
-      backgroundAttachment: 'fixed',
-      fontFamily: '"Arial Black", sans-serif',
+      fontFamily: "'Inter', 'Segoe UI', sans-serif",
+      color: '#2c3e50'
     },
     navbar: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      background: '#000',
+      background: '#004d40', // Barkume Deep Forest Green
       padding: '0 5%',
-      height: scrolled ? '70px' : '90px',
+      height: scrolled ? '70px' : '85px',
       position: 'sticky',
       top: 0,
       zIndex: 9999,
-      transition: '0.4s',
-      borderBottom: '5px solid #FFD700'
+      transition: '0.3s ease-in-out',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+      borderBottom: '3px solid #d4af37' // Subtle Gold Edge
     },
-    navLinks: { display: 'flex', gap: '25px', alignItems: 'center' },
+    navLinks: { display: 'flex', gap: '30px', alignItems: 'center' },
     hamburger: {
       display: 'none',
       flexDirection: 'column',
       cursor: 'pointer',
-      gap: '5px'
+      gap: '6px'
     },
-    bar: { width: '30px', height: '4px', background: '#90EE90' }
+    bar: { width: '28px', height: '3px', background: '#fff', borderRadius: '2px' }
   };
 
   return (
@@ -64,9 +64,23 @@ const App = () => {
       <div style={styles.pageWrapper}>
         <style>
           {`
-            body { margin: 0; background: #000; overflow-x: hidden; }
-            .nav-link:hover { color: #FFD700 !important; }
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@600;800&display=swap');
+
+            body { margin: 0; background: #f8f9fa; overflow-x: hidden; }
             
+            .nav-link { 
+              color: #ffffff; 
+              text-decoration: none; 
+              font-family: 'Montserrat', sans-serif; 
+              font-size: 0.9rem;
+              letter-spacing: 0.5px;
+              transition: 0.3s;
+              font-weight: 600;
+            }
+            
+            .nav-link:hover { color: #d4af37 !important; }
+
+            /* Mobile Menu Setup */
             @media (max-width: 992px) {
               .desktop-nav { display: none !important; }
               .mobile-toggle { display: flex !important; }
@@ -75,22 +89,32 @@ const App = () => {
                 flex-direction: column;
                 position: fixed;
                 top: 70px; left: 0; width: 100%; height: 100vh;
-                background: rgba(0,0,0,0.95);
-                padding: 40px 0;
+                background: #00332c; /* Slightly darker green for menu */
+                padding: 30px 0;
                 z-index: 9998;
               }
               .nav-item-mobile { 
-                padding: 20px 10%; 
-                font-size: 1.5rem;
-                border-bottom: 1px solid #222; 
+                padding: 18px 8%; 
+                font-size: 1.1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
               }
+            }
+
+            /* Ticker Styling */
+            .ticker-container {
+              background: #d4af37; 
+              color: #00332c; 
+              padding: 8px 0; 
+              font-weight: 700;
+              font-family: 'Inter', sans-serif;
+              border-bottom: 1px solid rgba(0,0,0,0.1);
             }
           `}
         </style>
 
         <nav style={styles.navbar}>
-          <Link to="/" style={{ color: '#FFF', textDecoration: 'none', fontWeight: '900', fontSize: '1.2rem' }} onClick={closeAll}>
-            EMA <span style={{color: '#FF0000'}}>| HOLETA</span>
+          <Link to="/" style={{ color: '#FFF', textDecoration: 'none', fontWeight: '800', fontSize: '1.4rem', fontFamily: 'Montserrat' }} onClick={closeAll}>
+            EMA <span style={{color: '#d4af37'}}>| HOLETA</span>
           </Link>
 
           <div className="mobile-toggle" style={styles.hamburger} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -100,38 +124,38 @@ const App = () => {
           </div>
           
           <div className={mobileMenuOpen ? "nav-menu-mobile" : "desktop-nav"} style={styles.navLinks}>
-            <Link className="nav-link nav-item-mobile" style={{color: '#90EE90', textDecoration: 'none'}} to="/" onClick={closeAll}>HOME</Link>
+            <Link className="nav-link nav-item-mobile" to="/" onClick={closeAll}>HOME</Link>
             
             <div 
               style={{position: 'relative', cursor: 'pointer'}} 
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
             >
-              <span className="nav-link nav-item-mobile" style={{color: '#90EE90'}}>ABOUT EMA ▾</span>
+              <span className="nav-link nav-item-mobile">ABOUT EMA ▾</span>
               {dropdownOpen && (
                 <div style={{
-                  background: '#111', borderLeft: '5px solid #FFD700', paddingLeft: '10px', 
-                  display: 'flex', flexDirection: 'column', marginTop: '10px'
+                  background: '#002b25', borderLeft: '4px solid #d4af37', 
+                  display: 'flex', flexDirection: 'column', padding: '10px 20px'
                 }}>
-                  <Link to="/history" style={{color: '#FFF', padding: '10px 0', textDecoration: 'none'}} onClick={closeAll}>HISTORY</Link>
-                  <Link to="/mission" style={{color: '#FFF', padding: '10px 0', textDecoration: 'none'}} onClick={closeAll}>MISSION</Link>
-                  <Link to="/objectives" style={{color: '#FFF', padding: '10px 0', textDecoration: 'none'}} onClick={closeAll}>OBJECTIVES</Link>
+                  <Link to="/history" className="nav-link" style={{padding: '8px 0'}} onClick={closeAll}>HISTORY</Link>
+                  <Link to="/mission" className="nav-link" style={{padding: '8px 0'}} onClick={closeAll}>MISSION</Link>
+                  <Link to="/objectives" className="nav-link" style={{padding: '8px 0'}} onClick={closeAll}>OBJECTIVES</Link>
                 </div>
               )}
             </div>
 
-            <Link className="nav-link nav-item-mobile" style={{color: '#90EE90', textDecoration: 'none'}} to="/gallery" onClick={closeAll}>GALLERY</Link>
-            <Link className="nav-link nav-item-mobile" style={{color: '#90EE90', textDecoration: 'none'}} to="/contact" onClick={closeAll}>CONTACT</Link>
+            <Link className="nav-link nav-item-mobile" to="/gallery" onClick={closeAll}>GALLERY</Link>
+            <Link className="nav-link nav-item-mobile" to="/contact" onClick={closeAll}>CONTACT</Link>
           </div>
         </nav>
 
-        <div style={{ background: '#FFD700', padding: '10px 0', fontWeight: '900' }}>
-           <marquee scrollamount="8">
-              {academyData.newsUpdates.map((n, i) => `*** ${n} *** `)}
+        <div className="ticker-container">
+           <marquee scrollamount="6">
+              {academyData.newsUpdates.map((n, i) => ` • ${n.toUpperCase()} • `)}
            </marquee>
         </div>
 
-        <main>
+        <main style={{ padding: '20px 0' }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/history" element={<History />} />
@@ -142,9 +166,11 @@ const App = () => {
           </Routes>
         </main>
 
-        <footer style={{ textAlign: 'center', padding: '50px 20px', background: '#000', color: '#FFF' }}>
-          <p style={{ color: '#FFD700', letterSpacing: '2px' }}>DISCIPLINE · VALOR · HONOR</p>
-          <small>{academyData.location}</small>
+        <footer style={{ textAlign: 'center', padding: '60px 20px', background: '#002b25', color: '#FFF' }}>
+          <div style={{ marginBottom: '15px', height: '2px', background: '#d4af37', width: '50px', margin: '0 auto 20px' }}></div>
+          <p style={{ color: '#d4af37', letterSpacing: '3px', fontWeight: '700', fontSize: '0.8rem' }}>DISCIPLINE • VALOR • HONOR</p>
+          <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Official Portal of the Ethiopian Military Academy</p>
+          <small style={{ opacity: 0.6 }}>{academyData.location}</small>
         </footer>
       </div>
     </Router>
