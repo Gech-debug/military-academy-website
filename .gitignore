@@ -1,0 +1,23 @@
+# Dependency folders
+node_modules/
+frontend/node_modules/
+
+# Local environment variables (Critical for security)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build folders
+build/
+dist/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Database files (Since you are using MongoDB Local)
+# If you keep data dumps in the project folder, ignore them
+*.log
+npm-debug.log*
