@@ -1,82 +1,64 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const Gallery = () => {
-  const [selectedImg, setSelectedImg] = useState(null);
-
-  const photos = [
-    { title: "TACTICAL DRILLS", url: "https://images.unsplash.com/photo-1590401419401-08149861e687?q=80&w=800" },
-    { title: "GRADUATION PARADE", url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800" },
-    { title: "ENGINEERING LAB", url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800" },
-    { title: "PHYSICAL TRAINING", url: "https://images.unsplash.com/photo-1533561052604-c3deb6d8ea64?q=80&w=800" },
-    { title: "HONOR GUARD", url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800" },
-    { title: "HOLETA CAMPUS", url: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=800" }
+  const images = [
+    { id: 1, title: "Commencement Square", url: "https://via.placeholder.com/600x400/000/90EE90?text=HOLETA+SQUARE" },
+    { id: 2, title: "Tactical Training", url: "https://via.placeholder.com/600x400/000/FF0000?text=TACTICAL+EXERCISE" },
+    { id: 3, title: "Engineering Lab", url: "https://via.placeholder.com/600x400/000/FFD700?text=ENGINEERING+WING" },
+    { id: 4, title: "Cadet Dormitories", url: "https://via.placeholder.com/600x400/000/FFF?text=CADET+HOUSING" },
   ];
 
   const styles = {
-    container: { padding: '60px 5%', textAlign: 'center' },
-    header: { fontSize: '4rem', fontWeight: '900', color: '#000', textShadow: '3px 3px #FF0000', marginBottom: '40px' },
-    grid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-      gap: '30px'
+    container: { padding: '80px 5%', textAlign: 'center', background: '#111', minHeight: '100vh' },
+    grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginTop: '50px' },
+    frame: {
+      position: 'relative',
+      border: '2px solid #333',
+      overflow: 'hidden',
+      transition: '0.3s',
+      cursor: 'pointer',
+      boxShadow: '0 10px 20px rgba(0,0,0,0.5)'
     },
-    imgCard: {
-      background: '#000',
+    label: {
+      position: 'absolute',
+      bottom: '0',
+      left: '0',
+      width: '100%',
+      background: 'rgba(144, 238, 144, 0.9)', // Light Green
+      color: '#000',
       padding: '10px',
-      border: '5px solid #000',
-      boxShadow: '10px 10px 0px #FFD700',
-      cursor: 'zoom-in',
+      fontWeight: '900',
+      fontSize: '0.9rem',
+      transform: 'translateY(100%)',
       transition: '0.3s'
-    },
-    image: { width: '100%', height: '250px', objectFit: 'cover' },
-    label: { color: '#90EE90', fontWeight: '900', padding: '15px 0', fontSize: '1.2rem' },
-    
-    // Lightbox Overlay Styles
-    overlay: {
-      position: 'fixed',
-      top: 0, left: 0, width: '100%', height: '100%',
-      backgroundColor: 'rgba(0,0,0,0.95)',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 2000,
-      cursor: 'zoom-out'
-    },
-    fullImg: {
-      maxWidth: '90%',
-      maxHeight: '70%',
-      border: '10px solid #FFD700',
-      boxShadow: '0 0 50px rgba(144, 238, 144, 0.5)'
     }
   };
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.header}>ACADEMY GALLERY</h1>
-      
+      <h1 style={{color: '#FFD700', fontSize: '3rem', fontWeight: '900', letterSpacing: '5px'}}>ACADEMY GALLERY</h1>
+      <p style={{color: '#90EE90', fontWeight: '800'}}>VISUAL ARCHIVES | HOLETA GENET</p>
+
       <div style={styles.grid}>
-        {photos.map((p, i) => (
-          <div key={i} style={styles.imgCard} onClick={() => setSelectedImg(p)}>
-            <img src={p.url} alt={p.title} style={styles.image} />
-            <div style={styles.label}>{p.title}</div>
+        {images.map((img) => (
+          <div 
+            key={img.id} 
+            style={styles.frame} 
+            className="gallery-item"
+            onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#90EE90';
+                e.currentTarget.querySelector('.label').style.transform = 'translateY(0)';
+            }}
+            onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#333';
+                e.currentTarget.querySelector('.label').style.transform = 'translateY(100%)';
+            }}
+          >
+            <img src={img.url} alt={img.title} style={{width: '100%', display: 'block'}} />
+            <div className="label" style={styles.label}>{img.title.toUpperCase()}</div>
           </div>
         ))}
       </div>
-
-      {/* Lightbox Pop-up */}
-      {selectedImg && (
-        <div style={styles.overlay} onClick={() => setSelectedImg(null)}>
-          <span style={{color: '#FFF', fontSize: '2rem', position: 'absolute', top: '20px', right: '40px', fontWeight: '900'}}>✕ CLOSE</span>
-          <img src={selectedImg.url} alt="Expanded View" style={styles.fullImg} />
-          <h2 style={{color: '#90EE90', marginTop: '30px', fontSize: '2.5rem'}}>{selectedImg.title}</h2>
-          <p style={{color: '#FFD700', letterSpacing: '3px'}}>ETHIOPIAN MILITARY ACADEMY | HOLETA GENET</p>
-        </div>
-      )}
-
-      <style>
-        {`.imgCard:hover { transform: translateY(-10px); boxShadow: 15px 15px 0px #FF0000; }`}
-      </style>
     </div>
   );
 };
