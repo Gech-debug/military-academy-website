@@ -10,6 +10,9 @@ import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import Objectives from './pages/Objectives';
 
+// Global API URL for your Contact Form
+export const API_URL = "https://ethiopian-military-academy.onrender.com/api";
+
 const App = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,7 +24,6 @@ const App = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when a link is clicked
   const closeAll = () => {
     setMobileMenuOpen(false);
     setDropdownOpen(false);
@@ -32,7 +34,7 @@ const App = () => {
       background: 'linear-gradient(135deg, #90EE90 50%, #FF0000 50%)',
       minHeight: '100vh',
       backgroundAttachment: 'fixed',
-      fontFamily: '"Arial Black", "Gadget", sans-serif',
+      fontFamily: '"Arial Black", sans-serif',
     },
     navbar: {
       display: 'flex',
@@ -47,14 +49,9 @@ const App = () => {
       transition: '0.4s',
       borderBottom: '5px solid #FFD700'
     },
-    navLinks: { 
-      display: 'flex', 
-      gap: '25px', 
-      alignItems: 'center',
-    },
-    // Hamburger Icon
+    navLinks: { display: 'flex', gap: '25px', alignItems: 'center' },
     hamburger: {
-      display: 'none', // Hidden by default, shown via CSS Media Query
+      display: 'none',
       flexDirection: 'column',
       cursor: 'pointer',
       gap: '5px'
@@ -70,21 +67,23 @@ const App = () => {
             body { margin: 0; background: #000; overflow-x: hidden; }
             .nav-link:hover { color: #FFD700 !important; }
             
-            /* Mobile Logic */
             @media (max-width: 992px) {
               .desktop-nav { display: none !important; }
               .mobile-toggle { display: flex !important; }
               .nav-menu-mobile {
                 display: ${mobileMenuOpen ? 'flex' : 'none'} !important;
                 flex-direction: column;
-                position: absolute;
-                top: 70px; left: 0; width: 100%;
-                background: #000;
-                padding: 20px 0;
-                border-bottom: 5px solid #FFD700;
+                position: fixed;
+                top: 70px; left: 0; width: 100%; height: 100vh;
+                background: rgba(0,0,0,0.95);
+                padding: 40px 0;
                 z-index: 9998;
               }
-              .nav-item-mobile { padding: 15px 5%; border-bottom: 1px solid #222; width: 90%; }
+              .nav-item-mobile { 
+                padding: 20px 10%; 
+                font-size: 1.5rem;
+                border-bottom: 1px solid #222; 
+              }
             }
           `}
         </style>
@@ -94,14 +93,12 @@ const App = () => {
             EMA <span style={{color: '#FF0000'}}>| HOLETA</span>
           </Link>
 
-          {/* Hamburger Icon for Mobile */}
           <div className="mobile-toggle" style={styles.hamburger} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             <div style={styles.bar}></div>
             <div style={styles.bar}></div>
             <div style={styles.bar}></div>
           </div>
           
-          {/* Main Navigation */}
           <div className={mobileMenuOpen ? "nav-menu-mobile" : "desktop-nav"} style={styles.navLinks}>
             <Link className="nav-link nav-item-mobile" style={{color: '#90EE90', textDecoration: 'none'}} to="/" onClick={closeAll}>HOME</Link>
             
@@ -109,7 +106,6 @@ const App = () => {
               style={{position: 'relative', cursor: 'pointer'}} 
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
-              onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle on click for mobile
             >
               <span className="nav-link nav-item-mobile" style={{color: '#90EE90'}}>ABOUT EMA ▾</span>
               {dropdownOpen && (
@@ -129,14 +125,13 @@ const App = () => {
           </div>
         </nav>
 
-        {/* Ticker */}
-        <div style={{ background: '#FFD700', overflow: 'hidden', padding: '10px 0', fontWeight: '900' }}>
+        <div style={{ background: '#FFD700', padding: '10px 0', fontWeight: '900' }}>
            <marquee scrollamount="8">
               {academyData.newsUpdates.map((n, i) => `*** ${n} *** `)}
            </marquee>
         </div>
 
-        <main style={{ minHeight: '80vh' }}>
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/history" element={<History />} />
